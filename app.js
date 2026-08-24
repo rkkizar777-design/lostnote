@@ -243,6 +243,10 @@ async function submitRecvCode(forced){
     showToast("Got "+parsed.notes.length+" notes");haptic();
   }catch(e){
     const m=e&&e.message?e.message:"Failed";
-    setXStatus("recvStatus","\u2717 "+(/answered|peer-unavailable/i.test(m)?"No device with that code":m),"err");
+    let msg;
+    if(/answered|peer-unavailable/i.test(m))msg="No device with that code";
+    else if(m==="__TIMEOUT__"||/timeout|network|disconnected/i.test(m))msg="Couldn't reach the other device \u2014 make sure both are open, on the same Wi-Fi, and the code matches. (Windows: click Allow if the firewall asks.)";
+    else msg=m;
+    setXStatus("recvStatus","\u2717 "+msg,"err");
   }finally{xferBusy=false}
 }
