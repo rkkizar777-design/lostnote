@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+<meta name="theme-color" content="#060608">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>LostNote</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23060608'/%3E%3Cpath d='M30 26h40a6 6 0 0 1 6 6v30l-14 14H30a6 6 0 0 1-6-6V32a6 6 0 0 1 6-6z' fill='%23a78bfa'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json?v=18">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="LostNote">
+<link rel="stylesheet" href="styles.css?v=18">
+</head>
+<body class="fs-m">
+
+<script>window.__t0=Date.now()</script>
+<style>
+#splash{position:fixed;inset:0;z-index:9999;background:var(--bg,#060608);display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:1;transform:none;transition:transform .55s cubic-bezier(.4,0,.2,1),opacity .55s ease}
+#splash.out{transform:translateY(-100%);opacity:0;pointer-events:none}
+#splash .splash-inner{text-align:center}
+#splash .splash-ring{width:88px;height:88px;border-radius:28px;background:conic-gradient(from 0deg,#8b5cf6,#c4b5fd,#8b5cf6);margin:0 auto 18px;display:flex;align-items:center;justify-content:center;animation:rSpin 1.8s linear infinite}
+@keyframes rSpin{to{transform:rotate(360deg)}}
+#splash .splash-mark{width:72px;height:72px;border-radius:22px;background:var(--bg,#060608);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:var(--accent2,#8b5cf6);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;animation:mPop .6s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes mPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+#splash .splash-title{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--text,#ececf1);margin-top:2px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;animation:fUp .5s .25s ease both}
+#splash .splash-title span{color:var(--accent,#a78bfa)}
+@keyframes fUp{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+#splash .splash-tag{color:var(--muted,#8b8b98);font-size:14px;margin-top:6px;animation:fUp .5s .45s ease both}
+#splash .splash-bar{width:160px;height:3px;background:var(--line,#252530);border-radius:99px;margin:22px auto 0;overflow:hidden;animation:fUp .5s .55s ease both}
+#splash .splash-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8b5cf6,#c4b5fd);border-radius:99px;animation:bFill 1.6s .55s ease both}
+@keyframes bFill{to{width:100%}}
+</style>
+
+<div id="splash" class="splash" onclick="this.classList.add('out');setTimeout(()=>this.parentNode&&this.remove(),650)">
+  <div class="splash-inner">
+    <div class="splash-ring"><div class="splash-mark">L</div></div>
+    <h1 class="splash-title">Lost<span>Note</span></h1>
+    <p class="splash-tag">write it before you lose it</p>
+    <div class="splash-bar"><i></i></div>
+  </div>
+</div>
+<script>
+// Splash ALWAYS plays at least 2.4s; hard fallback removes it even if app.js dies
+(function(){
+  function kill(){var s=document.getElementById("splash");if(s&&!s.classList.contains("out")){s.classList.add("out");setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s)},700)}}
+  setTimeout(kill,2800);
+})();
+</script>
+
+<div id="bgfx" aria-hidden="true">
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="orb orb-c"></div>
+  <div class="specks"></div>
+</div>
+
+<div id="lock" class="lockwrap hidden">
+  <div class="lock-card" id="lockCard">
+    <div class="lock-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+    <h2 id="lockTitle">Vault locked</h2>
+    <p id="lockMsg">Enter your PIN</p>
+    <div id="pinDots" class="pin-dots"><i></i><i></i><i></i><i></i></div>
+    <div id="keypad" class="keypad"></div>
+    <button id="lockCancel" class="linkbtn hidden">Cancel</button>
+  </div>
+</div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">L</div>
+    <div><h1>Lost<span>Note</span></h1><p id="noteCount" class="brand-sub"></p></div>
+  </div>
+  <div class="topbar-actions">
+    <button id="btnArchive" class="iconbtn" title="Archive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg></button>
+    <button id="btnTrash" class="iconbtn" title="Trash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13"/></svg></button>
+    <button id="btnSettings" class="iconbtn" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v3m0 16v3m-9-11H0m24 0h-3m-2.6-7.4-2.1 2.1m-9.8 9.8-2.1 2.1m0-14 2.1 2.1m9.8 9.8 2.1 2.1"/></svg></button>
+  </div>
+</header>
+
+<div id="settingsView" class="panelview hidden">
+  <div class="panel-scrim" data-close-settings></div>
+  <div class="panel-box">
+    <header class="panel-head">
+      <h2>Settings</h2>
+      <button class="closex" data-close-settings>✕</button>
+    </header>
+    <div class="settings-body">
+      <div class="sec"><div class="sec-title">Export & Backup</div><div class="rows">
+        <button class="row" id="sAllPdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg><span>Export all notes as PDF</span></button>
+        <button class="row" id="sBackup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 15V3m0 0L8 7m4-4 4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span>Backup everything (.json)</span></button>
+        <button class="row" id="sRestore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3"/></svg><span>Restore backup</span></button>
+      </div></div>
+      <div class="sec"><div class="sec-title">Security</div><div class="rows">
+        <button class="row" id="sPin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span id="sPinLabel">Set PIN lock</span></button>
+        <button class="row" id="sPinRemove" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="3"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg><span>Remove PIN lock</span></button>
+      </div></div>
+      <div class="sec"><div class="sec-title">Appearance</div><div class="rows">
+        <div class="row"><span>Theme</span><select id="selTheme"><option value="dark">Dark</option><option value="light">Light</option><option value="auto">Auto</option></select></div>
+        <div class="row"><span>Font size</span><div class="seg" id="fsSeg"><button data-fs="s">S</button><button data-fs="m" class="active">M</button><button data-fs="l">L</button></div></div>
+        <div class="row"><span>Cards per row</span><div class="seg" id="colSeg"><button data-cols="1">1</button><button data-cols="2" class="active">2</button></div></div>
+        <div class="row"><span>Animations</span><label class="switch"><input type="checkbox" id="swAnims" checked><i></i></label></div>
+      </div></div>
+      <div class="sec"><div class="sec-title">Behavior</div><div class="rows">
+        <div class="row"><span>Haptic feedback</span><label class="switch"><input type="checkbox" id="swHaptics" checked><i></i></label></div>
+        <div class="row"><span>Sort notes</span><select id="selSort"><option value="recent">Recent first</option><option value="oldest">Oldest first</option><option value="title">Title A–Z</option></select></div>
+      </div></div>
+      <div class="sec"><div class="sec-title">Archive</div><div class="rows">
+        <button class="row" id="sArchiveLock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/></svg><span id="sArchiveLockLabel">Lock archive (PIN)</span></button>
+      </div></div>
+      <div class="sec"><div class="sec-title">Transfer</div><div class="rows">
+        <button class="row" id="sXferSend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m3 17 6-6-6-6M21 7h-8a5 5 0 0 0-5 5"/><path d="M21 7v5"/></svg><span>Send all notes to device</span></button>
+        <button class="row" id="sXferRecv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m21 7-9 9-4-4M3 17l4-4"/></svg><span>Receive notes with code</span></button>
+      </div></div>
+      <div class="sec"><div class="sec-title">Storage</div><p id="statLine" class="stat-line">Calculating...</p></div>
+    </div>
+  </div>
+</div>
+
+<div id="trashView" class="panelview hidden">
+  <div class="panel-scrim" data-close-trash></div>
+  <div class="panel-box">
+    <header class="panel-head"><h2>Trash</h2><p class="panel-sub">Deleted notes stay here forever until you remove them.</p><button class="closex" data-close-trash>✕</button></header>
+    <div id="trashList" class="trash-list"></div>
+    <div id="trashEmpty" class="trash-empty hidden"><p>Trash is empty</p></div>
+  </div>
+</div>
+
+<div id="archiveView" class="panelview hidden">
+  <div class="panel-scrim" data-close-archive></div>
+  <div class="panel-box">
+    <header class="panel-head"><h2>Archive</h2><p class="panel-sub">Archived notes are hidden from the main view.</p><button class="closex" data-close-archive>✕</button></header>
+    <div id="archiveList" class="trash-list"></div>
+    <div id="archiveEmpty" class="trash-empty hidden"><p>Archive is empty</p></div>
+  </div>
+</div>
+
+<div class="scroll-wrap" id="scrollWrap">
+<div class="searchwrap">
+  <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+  <input id="search" type="search" placeholder="Search notes..." autocomplete="off">
+</div>
+
+<div class="filter-row" id="filterRow"></div>
+
+<main id="grid" class="grid"></main>
+
+<div id="empty" class="empty hidden">
+  <div class="empty-glyph">✎</div>
+  <h2>Nothing here... yet</h2>
+  <p>Tap <b>+</b> to catch your first thought.</p>
+</div>
+</div>
+
+<button id="fab" class="fab" aria-label="New note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+
+<section id="sheet" class="sheet hidden">
+  <div class="sheet-scrim" data-close-sheet></div>
+  <div class="sheet-panel">
+    <div class="sheet-handle"></div>
+    <div class="color-row" id="colorRow"></div>
+    <input id="edTitle" class="ed-title" type="text" placeholder="Title" maxlength="120" autocomplete="off">
+    <input id="edTags" class="ed-tags" type="text" placeholder="Tags (comma separated)" autocomplete="off">
+    <textarea id="edBody" class="ed-body" placeholder="Start writing..."></textarea>
+    <div id="photoStrip" class="photo-strip"></div>
+    <footer class="ed-foot">
+      <span id="edMeta" class="ed-meta">0 words</span>
+      <div class="ed-actions">
+        <button id="btnAttach" class="chip" title="Add photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="m21 16-4.5-4.5L9 19"/></svg></button>
+        <button id="btnShare" class="chip" title="Share as image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg></button>
+        <button id="btnArchiveNote" class="chip" title="Archive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg></button>
+        <button id="btnPinNote" class="chip" title="Pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 17v5M9 4h6l1 7 3 2H5l3-2 1-7z"/></svg></button>
+        <button id="btnDeleteNote" class="chip danger" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13"/></svg></button>
+        <button id="btnDone" class="done-btn">Done</button>
+      </div>
+    </footer>
+  </div>
+</section>
+
+<div id="lightbox" class="lightbox hidden">
+  <div class="lb-scrim" data-close-lb></div>
+  <img id="lbImg" alt="">
+  <div class="lb-bar">
+    <button id="lbDelete" class="chip danger">Delete</button>
+    <button id="lbClose" class="done-btn">Close</button>
+  </div>
+</div>
+
+<div id="xfer" class="panelview hidden">
+  <div class="panel-scrim" data-close-xfer></div>
+  <div class="panel-box xfer-box">
+    <header class="panel-head"><h2 id="xferTitle">Transfer</h2><button class="closex" data-close-xfer>✕</button></header>
+    <div class="xfer-body">
+
+      <section id="stageSend" class="xfer-stage hidden">
+        <p class="xfer-hint">Keep this screen open. On your other device tap <b>Receive notes</b> and enter:</p>
+        <div class="xfer-code" id="sendCode">&middot;&middot;&middot;&middot;&middot;</div>
+        <div class="xfer-status"><span class="xdot pulse"></span><span id="sendStatus">Starting&hellip;</span></div>
+        <div class="xfer-note">Notes travel device-to-device over an encrypted link. Nothing is stored online.</div>
+      </section>
+
+      <section id="stageRecv" class="xfer-stage hidden">
+        <p class="xfer-hint">Enter the 5-digit code shown on the sending device:</p>
+        <div class="code-inputs" id="codeInputs">
+          <input maxlength="1" inputmode="numeric" autocomplete="one-time-code"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
+        </div>
+        <button id="btnGoRecv" class="done-btn xfer-go">Connect &amp; receive</button>
+        <div class="xfer-status"><span class="xdot"></span><span id="recvStatus">Enter a code to begin</span></div>
+        <div class="xfer-note">Incoming notes merge with yours &mdash; newer versions win, nothing is overwritten silently.</div>
+      </section>
+
+      <div id="xferProg" class="xfer-progress hidden"><i></i></div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<input type="file" id="filePhotos" accept="image/*" multiple hidden>
+<input type="file" id="fileRestore" accept=".json" hidden>
+
+<script src="db.js?v=18"></script>
+<script src="export.js?v=18"></script>
+<script src="peerjs.min.js?v=18"></script>
+<script src="app.js?v=18"></script>
+</body>
+</html>
