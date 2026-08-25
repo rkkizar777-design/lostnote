@@ -20,6 +20,7 @@ async function put(s, v) { return rp((await openDb()).transaction(s, "readwrite"
 async function del(s, k) { return rp((await openDb()).transaction(s, "readwrite").objectStore(s).delete(k)); }
 window.db = {
   listNotes: () => all("notes"),
+  listMeta: () => all("meta"),
   getNote: (id) => get("notes", id),
   putNote: (n) => put("notes", n),
   delNote: (id) => del("notes", id),
