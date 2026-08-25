@@ -209,3 +209,11 @@ body.cols-1 .grid{grid-template-columns:1fr;max-width:560px}
 body.light .lockwrap{background:rgba(245,245,247,.92)}
 body.light .lock-glyph{border-color:rgba(124,58,237,.25)}
 body.light .splash-ring{background:conic-gradient(from 0deg,#6d28d9,#c4b5fd,#6d28d9)}
+
+/* update banner + check row */
+.upd-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 16px 0;padding:10px 14px;border:1px solid rgba(167,139,250,.45);background:linear-gradient(180deg,rgba(139,92,246,.18),rgba(139,92,246,.06));border-radius:14px}
+.upd-info{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--muted)}
+.upd-info b{font-size:14px;color:var(--text)}
+.upd-banner button{border:0;border-radius:10px;padding:9px 16px;font-weight:700;background:#8b5cf6;color:#fff;cursor:pointer;flex-shrink:0}
+.mini-btn{border:1px solid var(--line);background:var(--sf2);color:var(--text);border-radius:10px;padding:7px 14px;font-weight:600;cursor:pointer}
+.upd-cur{opacity:.55;margin-left:8px;font-size:12px}
