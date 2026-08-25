@@ -71,7 +71,7 @@ function restoreBackup(){const inp=$("fileRestore");inp.onchange=async()=>{const
 function closeAllPanels(){closeTrash();closeArchive();closeSettings()}
 async function init(){
     const sv=document.querySelector("#settingsView .panel-box")||$("settingsView");
-    if(sv&&!document.getElementById("verLine")){const v=document.createElement("div");v.id="verLine";v.style.cssText="opacity:.55;font-size:12px;text-align:center;padding:6px 0 2px";v.textContent="LostNote v1.2.0 \u00b7 transfer v3";sv.appendChild(v)}
+    if(sv&&!document.getElementById("licLine")){const l=document.createElement("div");l.id="licLine";l.style.cssText="opacity:.45;font-size:11px;text-align:center;padding:0 0 4px";l.textContent="\u00a9 2026 Kizar \u00b7 LostNote is proprietary software \u00b7 not open source";sv.insertBefore(l,sv.firstChild)}if(sv&&!document.getElementById("verLine")){const v=document.createElement("div");v.id="verLine";v.style.cssText="opacity:.55;font-size:12px;text-align:center;padding:6px 0 2px";v.textContent="LostNote v1.2.0 \u00b7 transfer v3";sv.appendChild(v)}
   try{await loadSettings();notes=await db.listNotes();notes.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));const _seen=new Set();notes=notes.filter(n=>!_seen.has(n.id)&&_seen.add(n.id));render();renderColorRow()}catch(e){console.error("Init load error:",e)}
   dismissSplash();
   updAuto();
