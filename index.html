@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,10 +8,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>LostNote</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23060608'/%3E%3Cpath d='M30 26h40a6 6 0 0 1 6 6v30l-14 14H30a6 6 0 0 1-6-6V32a6 6 0 0 1 6-6z' fill='%23a78bfa'/%3E%3C/svg%3E">
-<link rel="manifest" href="manifest.json?v=21">
+<link rel="manifest" href="manifest.json?v=23">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="LostNote">
-<link rel="stylesheet" href="styles.css?v=21">
+<link rel="stylesheet" href="styles.css?v=23">
 </head>
 <body class="fs-m">
 
@@ -79,12 +79,15 @@
   </div>
 </header>
 
-<div id="settingsView" class="panelview hidden">
+  <div id="updBanner" class="upd-banner hidden">
+    <div class="upd-info"><b id="updVer"></b><span>New version ready to install</span></div>
+    <button id="btnUpdGet" type="button">Download</button>
+  </div><div id="settingsView" class="panelview hidden">
   <div class="panel-scrim" data-close-settings></div>
   <div class="panel-box">
     <header class="panel-head">
       <h2>Settings</h2>
-      <button class="closex" data-close-settings>âœ•</button>
+      <button class="closex" data-close-settings>&#10005;</button>
     </header>
     <div class="settings-body">
       <div class="sec"><div class="sec-title">Export & Backup</div><div class="rows">
@@ -104,7 +107,8 @@
       </div></div>
       <div class="sec"><div class="sec-title">Behavior</div><div class="rows">
         <div class="row"><span>Haptic feedback</span><label class="switch"><input type="checkbox" id="swHaptics" checked><i></i></label></div>
-        <div class="row"><span>Sort notes</span><select id="selSort"><option value="recent">Recent first</option><option value="oldest">Oldest first</option><option value="title">Title Aâ€“Z</option></select></div>
+        <div class="row"><span>Sort notes</span><select id="selSort"><option value="recent">Recent first</option><option value="oldest">Oldest first</option><option value="title">Title A&#226;&#8364;&#8220;Z</option></select></div>
+  <div class="row"><span>Updates<span id="updCur" class="upd-cur"></span></span><button id="btnCheckUpd" class="mini-btn" type="button">Check now</button></div>
       </div></div>
       <div class="sec"><div class="sec-title">Archive</div><div class="rows">
         <button class="row" id="sArchiveLock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/></svg><span id="sArchiveLockLabel">Lock archive (PIN)</span></button>
@@ -121,7 +125,7 @@
 <div id="trashView" class="panelview hidden">
   <div class="panel-scrim" data-close-trash></div>
   <div class="panel-box">
-    <header class="panel-head"><h2>Trash</h2><p class="panel-sub">Deleted notes stay here forever until you remove them.</p><button class="closex" data-close-trash>âœ•</button></header>
+    <header class="panel-head"><h2>Trash</h2><p class="panel-sub">Deleted notes stay here forever until you remove them.</p><button class="closex" data-close-trash>&#10005;</button></header>
     <div id="trashList" class="trash-list"></div>
     <div id="trashEmpty" class="trash-empty hidden"><p>Trash is empty</p></div>
   </div>
@@ -130,7 +134,7 @@
 <div id="archiveView" class="panelview hidden">
   <div class="panel-scrim" data-close-archive></div>
   <div class="panel-box">
-    <header class="panel-head"><h2>Archive</h2><p class="panel-sub">Archived notes are hidden from the main view.</p><button class="closex" data-close-archive>âœ•</button></header>
+    <header class="panel-head"><h2>Archive</h2><p class="panel-sub">Archived notes are hidden from the main view.</p><button class="closex" data-close-archive>&#10005;</button></header>
     <div id="archiveList" class="trash-list"></div>
     <div id="archiveEmpty" class="trash-empty hidden"><p>Archive is empty</p></div>
   </div>
@@ -147,7 +151,7 @@
 <main id="grid" class="grid"></main>
 
 <div id="empty" class="empty hidden">
-  <div class="empty-glyph">âœŽ</div>
+  <div class="empty-glyph">&#9998;</div>
   <h2>Nothing here... yet</h2>
   <p>Tap <b>+</b> to catch your first thought.</p>
 </div>
@@ -191,7 +195,7 @@
 <div id="xfer" class="panelview hidden">
   <div class="panel-scrim" data-close-xfer></div>
   <div class="panel-box xfer-box">
-    <header class="panel-head"><h2 id="xferTitle">Transfer</h2><button class="closex" data-close-xfer>âœ•</button></header>
+    <header class="panel-head"><h2 id="xferTitle">Transfer</h2><button class="closex" data-close-xfer>&#10005;</button></header>
     <div class="xfer-body">
 
       <section id="stageSend" class="xfer-stage hidden">
@@ -222,9 +226,9 @@
 <input type="file" id="filePhotos" accept="image/*" multiple hidden>
 <input type="file" id="fileRestore" accept=".json" hidden>
 
-<script src="db.js?v=21"></script>
-<script src="export.js?v=21"></script>
-<script src="peerjs.min.js?v=21"></script>
-<script src="app.js?v=21"></script>
+<script src="db.js?v=23"></script>
+<script src="export.js?v=23"></script>
+<script src="peerjs.min.js?v=23"></script>
+<script src="app.js?v=23"></script>
 </body>
 </html>
