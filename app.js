@@ -6,7 +6,7 @@ let notes=[],editingId=null,editTarget=null,toastTimer=null;
 let S={fontSize:"m",anims:true,haptics:true,sort:"recent",theme:"dark",cols:"2"};
 let pinBuf="",lockMode="unlock",pendingPin=null;
 let currentPhotos=[],currentColor="",currentTags=[];
-const APP_VER="1.2.0";let UPD=null;
+const APP_VER="1.3.0";let UPD=null;
 function cmpVer(a,b){a=String(a).replace(/^v/,"").split(".").map(Number);b=String(b).replace(/^v/,"").split(".").map(Number);for(let i=0;i<3;i++){if((a[i]||0)>(b[i]||0))return 1;if((a[i]||0)<(b[i]||0))return -1}return 0}
 async function checkUpdates(manual){try{const r=await fetch("https://api.github.com/repos/rkkizar777-design/lostnote/releases/latest",{headers:{Accept:"application/vnd.github+json"}});if(!r.ok)throw new Error("http");const j=await r.json();const tag=j.tag_name||"";if(!tag)throw new Error("tag");if(cmpVer(tag,APP_VER)>0){UPD={tag:tag,apk:"",exe:""};(j.assets||[]).forEach(a=>{if(/\.apk$/i.test(a.name))UPD.apk=a.browser_download_url;if(/\.exe$/i.test(a.name))UPD.exe=a.browser_download_url});showUpd();if(manual)showToast("Update found: "+UPD.tag.replace(/^v/,""))}else{const c=$("updCur");if(c)c.textContent="Up to date (v"+APP_VER+")";if(manual)showToast("You are on the latest version")}}catch(e){if(manual)showToast("Could not check for updates")}}
 function showUpd(){const b=$("updBanner");if(!b||!UPD)return;$("updVer").textContent="LostNote "+UPD.tag.replace(/^v/,"")+" available";b.classList.remove("hidden")}
@@ -71,7 +71,7 @@ function restoreBackup(){const inp=$("fileRestore");inp.onchange=async()=>{const
 function closeAllPanels(){closeTrash();closeArchive();closeSettings()}
 async function init(){
     const sv=document.querySelector("#settingsView .panel-box")||$("settingsView");
-    if(sv&&!document.getElementById("licLine")){const l=document.createElement("div");l.id="licLine";l.style.cssText="opacity:.45;font-size:11px;text-align:center;padding:0 0 4px";l.textContent="\u00a9 2026 Kizar \u00b7 LostNote is proprietary software \u00b7 not open source";sv.insertBefore(l,sv.firstChild)}if(sv&&!document.getElementById("verLine")){const v=document.createElement("div");v.id="verLine";v.style.cssText="opacity:.55;font-size:12px;text-align:center;padding:6px 0 2px";v.textContent="LostNote v1.2.0 \u00b7 transfer v3";sv.appendChild(v)}
+    if(sv&&!document.getElementById("licLine")){const l=document.createElement("div");l.id="licLine";l.style.cssText="opacity:.45;font-size:11px;text-align:center;padding:0 0 4px";l.textContent="\u00a9 2026 Kizar \u00b7 LostNote is proprietary software \u00b7 not open source";sv.insertBefore(l,sv.firstChild)}if(sv&&!document.getElementById("verLine")){const v=document.createElement("div");v.id="verLine";v.style.cssText="opacity:.55;font-size:12px;text-align:center;padding:6px 0 2px";v.textContent="LostNote v1.3.0 \u00b7 transfer v3";sv.appendChild(v)}
   try{await loadSettings();notes=await db.listNotes();notes.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));const _seen=new Set();notes=notes.filter(n=>!_seen.has(n.id)&&_seen.add(n.id));render();renderColorRow()}catch(e){console.error("Init load error:",e)}
   dismissSplash();
   updAuto();
