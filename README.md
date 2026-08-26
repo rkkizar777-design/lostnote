@@ -16,7 +16,7 @@ A notes app that lives **entirely on your device** — photos, colors, PDF expor
 
 | Platform | Link | Size |
 |---|---|---|
-| 📱 **Android** (APK) | [LostNote.apk](https://github.com/rkkizar777-design/lostnote/releases/latest/download/LostNote.apk) | 3.6 MB |
+| 📱 **Android** (APK) | [LostNote.apk](https://github.com/rkkizar777-design/lostnote/releases/latest/download/LostNote.apk) | ~3 MB |
 | 💻 **Windows** (portable, no install) | [LostNote.exe](https://github.com/rkkizar777-design/lostnote/releases/latest/download/LostNote.exe) | ~89 MB |
 
 Install → open → write. That's the whole onboarding.
@@ -37,6 +37,8 @@ Install → open → write. That's the whole onboarding.
 - 🌗 **Dark · Light · Auto theme** — OLED black by default
 - 🔄 **P2P transfer** — send your entire library to another device with a 5-digit code. Direct when possible, relayed through an encrypted tunnel when networks are hostile. Archive and trash arrive exactly as they left.
 - 👆 **Built for thumbs** — long-press to delete, one-thumb editor, desktop layout for big screens
+- 🚀 **In-app updates** — check and download new versions from inside the app, no browser needed
+- ⚡ **Optimized PC build** — GPU disabled, startup flags tuned, dead weight stripped, window appears instantly when ready
 
 ## ⚙️ How it works
 
@@ -45,6 +47,7 @@ Install → open → write. That's the whole onboarding.
 - 🪞 **Mirror merge** — newest `updatedAt` wins, deletions propagate, no duplicates ever
 - 📦 **One codebase, two shells** — plain web app wrapped natively: Capacitor for Android, Electron portable for Windows (`lostnote://` secure origin)
 - 🚀 **Single-file EXE** — self-contained, runs from a USB stick if you want
+- ⚙️ **Lightweight startup** — `--no-sandbox`, GPU disabled, renderer capped, Chromium services stripped; fastest possible launch for a notes app
 - 🎬 **Splash intro** — guaranteed 2.4s brand moment, skippable, theme-aware
 
 **Notes stored** · **on your device**
