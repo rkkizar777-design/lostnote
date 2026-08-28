@@ -8,10 +8,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>LostNote</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23060608'/%3E%3Cpath d='M30 26h40a6 6 0 0 1 6 6v30l-14 14H30a6 6 0 0 1-6-6V32a6 6 0 0 1 6-6z' fill='%23a78bfa'/%3E%3C/svg%3E">
-<link rel="manifest" href="manifest.json?v=27">
+<link rel="manifest" href="manifest.json?v=29">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="LostNote">
-<link rel="stylesheet" href="styles.css?v=27">
+<link rel="stylesheet" href="styles.css?v=29">
 </head>
 <body class="fs-m">
 
@@ -42,12 +42,43 @@
   </div>
 </div>
 <script>
-// Splash ALWAYS plays at least 2.4s; hard fallback removes it even if app.js dies
 (function(){
   function kill(){var s=document.getElementById("splash");if(s&&!s.classList.contains("out")){s.classList.add("out");setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s)},700)}}
   setTimeout(kill,2800);
 })();
 </script>
+
+<div id="onboard" class="onboard-wrap hidden">
+  <div class="onboard-card">
+    <div class="onboard-slides" id="obSlides">
+      <div class="ob-slide">
+        <div class="ob-glyph">&#9998;</div>
+        <h2>Write freely</h2>
+        <p>Capture thoughts instantly. Photos, colors, tags, and locks &mdash; everything stays on your device.</p>
+      </div>
+      <div class="ob-slide">
+        <div class="ob-glyph">&#9733;</div>
+        <h2>Organize your way</h2>
+        <p>Pin important notes, archive what you don't need right now, trash what you're done with. Filter by tags.</p>
+      </div>
+      <div class="ob-slide">
+        <div class="ob-glyph">&#8644;</div>
+        <h2>Sync device to device</h2>
+        <p>Send your entire library to another phone or PC with a 5-digit code. No server, no account, no tracking.</p>
+      </div>
+      <div class="ob-slide">
+        <div class="ob-glyph">&#9881;</div>
+        <h2>Make it yours</h2>
+        <p>Dark &amp; light themes, font sizes, column layouts, swipe actions &mdash; customize everything in Settings.</p>
+      </div>
+    </div>
+    <div class="onboard-dots" id="obDots"></div>
+    <div class="onboard-actions">
+      <button id="obSkip" class="linkbtn">Skip</button>
+      <button id="obNext" class="done-btn">Next</button>
+    </div>
+  </div>
+</div>
 
 <div id="bgfx" aria-hidden="true">
   <div class="orb orb-a"></div>
@@ -73,51 +104,98 @@
     <div><h1>Lost<span>Note</span></h1><p id="noteCount" class="brand-sub"></p></div>
   </div>
   <div class="topbar-actions">
-    <button id="btnArchive" class="iconbtn" title="Archive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg></button>
-    <button id="btnTrash" class="iconbtn" title="Trash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13"/></svg></button>
-    <button id="btnSettings" class="iconbtn" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v3m0 16v3m-9-11H0m24 0h-3m-2.6-7.4-2.1 2.1m-9.8 9.8-2.1 2.1m0-14 2.1 2.1m9.8 9.8 2.1 2.1"/></svg></button>
+    <button id="btnArchive" class="iconbtn" title="Archive" aria-label="Archive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg></button>
+    <button id="btnTrash" class="iconbtn" title="Trash" aria-label="Trash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13"/></svg></button>
+    <button id="btnSettings" class="iconbtn" title="Settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v3m0 16v3m-9-11H0m24 0h-3m-2.6-7.4-2.1 2.1m-9.8 9.8-2.1 2.1m0-14 2.1 2.1m9.8 9.8 2.1 2.1"/></svg></button>
   </div>
 </header>
 
   <div id="updBanner" class="upd-banner hidden">
     <div class="upd-info"><b id="updVer"></b><span>New version ready to install</span></div>
     <button id="btnUpdGet" type="button">Download</button>
-  </div><div id="settingsView" class="panelview hidden">
+  </div>
+
+<div id="settingsView" class="panelview hidden">
   <div class="panel-scrim" data-close-settings></div>
-  <div class="panel-box">
+  <div class="panel-box panel-box-settings">
     <header class="panel-head">
       <h2>Settings</h2>
-      <button class="closex" data-close-settings>&#10005;</button>
+      <button class="closex" data-close-settings aria-label="Close">&#10005;</button>
     </header>
-    <div class="settings-body">
-      <div class="sec"><div class="sec-title">Export & Backup</div><div class="rows">
-        <button class="row" id="sAllPdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg><span>Export all notes as PDF</span></button>
-        <button class="row" id="sBackup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 15V3m0 0L8 7m4-4 4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span>Backup everything (.json)</span></button>
-        <button class="row" id="sRestore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3"/></svg><span>Restore backup</span></button>
-      </div></div>
-      <div class="sec"><div class="sec-title">Security</div><div class="rows">
-        <button class="row" id="sPin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span id="sPinLabel">Set PIN lock</span></button>
-        <button class="row" id="sPinRemove" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="3"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg><span>Remove PIN lock</span></button>
-      </div></div>
-      <div class="sec"><div class="sec-title">Appearance</div><div class="rows">
-        <div class="row"><span>Theme</span><select id="selTheme"><option value="dark">Dark</option><option value="light">Light</option><option value="auto">Auto</option></select></div>
-        <div class="row"><span>Font size</span><div class="seg" id="fsSeg"><button data-fs="s">S</button><button data-fs="m" class="active">M</button><button data-fs="l">L</button></div></div>
-        <div class="row"><span>Cards per row</span><div class="seg" id="colSeg"><button data-cols="1">1</button><button data-cols="2" class="active">2</button></div></div>
-        <div class="row"><span>Animations</span><label class="switch"><input type="checkbox" id="swAnims" checked><i></i></label></div>
-      </div></div>
-      <div class="sec"><div class="sec-title">Behavior</div><div class="rows">
-        <div class="row"><span>Haptic feedback</span><label class="switch"><input type="checkbox" id="swHaptics" checked><i></i></label></div>
-        <div class="row"><span>Sort notes</span><select id="selSort"><option value="recent">Recent first</option><option value="oldest">Oldest first</option><option value="title">Title A&#226;&#8364;&#8220;Z</option></select></div>
-  <div class="row"><span>Updates<span id="updCur" class="upd-cur"></span></span><button id="btnCheckUpd" class="mini-btn" type="button">Check now</button></div>
-      </div></div>
-      <div class="sec"><div class="sec-title">Archive</div><div class="rows">
-        <button class="row" id="sArchiveLock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/></svg><span id="sArchiveLockLabel">Lock archive (PIN)</span></button>
-      </div></div>
-      <div class="sec"><div class="sec-title">Transfer</div><div class="rows">
-        <button class="row" id="sXferSend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m3 17 6-6-6-6M21 7h-8a5 5 0 0 0-5 5"/><path d="M21 7v5"/></svg><span>Send all notes to device</span></button>
-        <button class="row" id="sXferRecv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m21 7-9 9-4-4M3 17l4-4"/></svg><span>Receive notes with code</span></button>
-      </div></div>
-      <div class="sec"><div class="sec-title">Storage</div><p id="statLine" class="stat-line">Calculating...</p></div>
+    <div class="settings-search-wrap">
+      <svg class="settings-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="settingsSearch" type="search" class="settings-search" placeholder="Search settings..." autocomplete="off">
+    </div>
+    <div class="settings-body" id="settingsBody">
+      <div class="sec" data-sec="export">
+        <div class="sec-head"><span class="sec-chip" style="background:rgba(59,130,246,.15);color:#60a5fa">&#128194;</span><span class="sec-title">Export &amp; Backup</span><span class="sec-chevron">&#8250;</span></div>
+        <div class="sec-rows">
+          <button class="row" id="sAllPdf" data-search="export pdf notes all"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg><span>Export all notes as PDF</span></button>
+          <button class="row" id="sBackup" data-search="backup save json export"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 15V3m0 0L8 7m4-4 4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span>Backup everything (.json)</span></button>
+          <button class="row" id="sRestore" data-search="restore import json backup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3"/></svg><span>Restore backup</span></button>
+        </div>
+      </div>
+      <div class="sec" data-sec="security">
+        <div class="sec-head"><span class="sec-chip" style="background:rgba(248,113,113,.15);color:#f87171">&#128274;</span><span class="sec-title">Security</span><span class="sec-chevron">&#8250;</span></div>
+        <div class="sec-rows">
+          <button class="row" id="sPin" data-search="pin lock password security"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span id="sPinLabel">Set PIN lock</span></button>
+          <button class="row" data-search="pin remove delete" id="sPinRemove" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="3"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg><span>Remove PIN lock</span></button>
+        </div>
+      </div>
+      <div class="sec" data-sec="appearance">
+        <div class="sec-head"><span class="sec-chip" style="background:rgba(139,92,246,.15);color:#a78bfa">&#127912;</span><span class="sec-title">Appearance</span><span class="sec-chevron">&#8250;</span></div>
+        <div class="sec-rows">
+          <div class="row" data-search="theme dark light auto"><span>Theme</span><select id="selTheme"><option value="dark">Dark</option><option value="light">Light</option><option value="auto">Auto</option></select></div>
+          <div class="row" data-search="font size text small large"><span>Font size</span><div class="seg" id="fsSeg"><button data-fs="s">S</button><button data-fs="m" class="active">M</button><button data-fs="l">L</button></div></div>
+          <div class="row" data-search="columns grid layout cards tablet"><span>Cards per row</span><div class="seg" id="colSeg"><button data-cols="1">1</button><button data-cols="2" class="active">2</button><button data-cols="3">3</button></div></div>
+          <div class="row" data-search="animations motion transition"><span>Animations</span><label class="switch"><input type="checkbox" id="swAnims" checked><i></i></label></div>
+          <div class="row" data-search="default color note new"><span>Default note color</span><div class="color-sel" id="defColorSel"></div></div>
+        </div>
+      </div>
+      <div class="sec" data-sec="behavior">
+        <div class="sec-head"><span class="sec-chip" style="background:rgba(34,197,94,.15);color:#4ade80">&#9881;</span><span class="sec-title">Behavior</span><span class="sec-chevron">&#8250;</span></div>
+        <div class="sec-rows">
+          <div class="row" data-search="haptic vibration feedback touch"><span>Haptic feedback</span><label class="switch"><input type="checkbox" id="swHaptics" checked><i></i></label></div>
+          <div class="row" data-search="sort order notes recent oldest title"><span>Default sort</span><select id="selSort"><option value="recent">Recent first</option><option value="oldest">Oldest first</option><option value="title">Title A&#8212;Z</option></select></div>
+          <div class="row" data-search="swipe left right gesture action card"><span>Swipe action</span><select id="selSwipe"><option value="archive">Archive</option><option value="delete">Delete</option><option value="pin">Pin</option><option value="color">Change color</option><option value="none">Disabled</option></select></div>
+          <div class="row" data-search="updates version check update"><span>Updates<span id="updCur" class="upd-cur"></span></span><button id="btnCheckUpd" class="mini-btn" type="button">Check now</button></div>
+        </div>
+      </div>
+      <div class="sec" data-sec="archive">
+        <div class="sec-head"><span class="sec-chip" style="background:rgba(234,179,8,.15);color:#facc15">&#128451;</span><span class="sec-title">Archive</span><span class="sec-chevron">&#8250;</span></div>
+        <div class="sec-rows">
+          <button class="row" id="sArchiveLock" data-search="archive lock pin security"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/></svg><span id="sArchiveLockLabel">Lock archive (PIN)</span></button>
+        </div>
+      </div>
+      <div class="sec" data-sec="transfer">
+        <div class="sec-head"><span class="sec-chip" style="background:rgba(236,72,153,.15);color:#f472b6">&#8644;</span><span class="sec-title">Transfer</span><span class="sec-chevron">&#8250;</span></div>
+        <div class="sec-rows">
+          <button class="row" id="sXferSend" data-search="send transfer export device sync p2p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m3 17 6-6-6-6M21 7h-8a5 5 0 0 0-5 5"/><path d="M21 7v5"/></svg><span>Send all notes to device</span></button>
+          <button class="row" id="sXferRecv" data-search="receive transfer import device sync p2p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m21 7-9 9-4-4M3 17l4-4"/></svg><span>Receive notes with code</span></button>
+        </div>
+      </div>
+      <div class="sec" data-sec="accessibility">
+        <div class="sec-head"><span class="sec-chip" style="background:rgba(96,165,250,.15);color:#60a5fa">&#9855;</span><span class="sec-title">Accessibility</span><span class="sec-chevron">&#8250;</span></div>
+        <div class="sec-rows">
+          <div class="row" data-search="reduce motion animation disable"><span>Reduce motion</span><label class="switch"><input type="checkbox" id="swReduceMotion"><i></i></label></div>
+          <div class="row" data-search="high contrast visibility"><span>High contrast</span><label class="switch"><input type="checkbox" id="swHighContrast"><i></i></label></div>
+        </div>
+      </div>
+      <div class="sec" data-sec="storage">
+        <div class="sec-head"><span class="sec-chip" style="background:rgba(148,163,184,.15);color:#94a3b8">&#128190;</span><span class="sec-title">Storage</span><span class="sec-chevron">&#8250;</span></div>
+        <div class="sec-rows">
+          <p id="statLine" class="stat-line">Calculating...</p>
+        </div>
+      </div>
+      <div class="sec" data-sec="legal">
+        <div class="sec-head"><span class="sec-chip" style="background:rgba(167,139,250,.15);color:#a78bfa">&#9878;</span><span class="sec-title">Legal &amp; License</span><span class="sec-chevron">&#8250;</span></div>
+        <div class="sec-rows">
+          <button class="row" id="opnLicense" data-search="license eula agreement proprietary legal terms end user"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span>End User License Agreement</span></button>
+          <button class="row" id="opnAbout" data-search="about version info credits build"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg><span>About LostNote</span></button>
+        </div>
+      </div>
+      <div id="licLine" class="lic-line">&#169; 2026 Kizar &middot; LostNote is proprietary software &middot; not open source</div>
+      <div id="verLine" class="ver-line">LostNote v1.4.0 &middot; transfer v3</div>
     </div>
   </div>
 </div>
@@ -125,18 +203,26 @@
 <div id="trashView" class="panelview hidden">
   <div class="panel-scrim" data-close-trash></div>
   <div class="panel-box">
-    <header class="panel-head"><h2>Trash</h2><p class="panel-sub">Deleted notes stay here forever until you remove them.</p><button class="closex" data-close-trash>&#10005;</button></header>
+    <header class="panel-head"><h2>Trash</h2><p class="panel-sub">Deleted notes stay here forever until you remove them.</p><button class="closex" data-close-trash aria-label="Close">&#10005;</button></header>
     <div id="trashList" class="trash-list"></div>
-    <div id="trashEmpty" class="trash-empty hidden"><p>Trash is empty</p></div>
+    <div id="trashEmpty" class="empty-state hidden">
+      <div class="empty-state-glyph">&#128465;</div>
+      <h3>Trash is empty</h3>
+      <p>Deleted notes will appear here.</p>
+    </div>
   </div>
 </div>
 
 <div id="archiveView" class="panelview hidden">
   <div class="panel-scrim" data-close-archive></div>
   <div class="panel-box">
-    <header class="panel-head"><h2>Archive</h2><p class="panel-sub">Archived notes are hidden from the main view.</p><button class="closex" data-close-archive>&#10005;</button></header>
+    <header class="panel-head"><h2>Archive</h2><p class="panel-sub">Archived notes are hidden from the main view.</p><button class="closex" data-close-archive aria-label="Close">&#10005;</button></header>
     <div id="archiveList" class="trash-list"></div>
-    <div id="archiveEmpty" class="trash-empty hidden"><p>Archive is empty</p></div>
+    <div id="archiveEmpty" class="empty-state hidden">
+      <div class="empty-state-glyph">&#128451;</div>
+      <h3>Archive is empty</h3>
+      <p>Archived notes will appear here.</p>
+    </div>
   </div>
 </div>
 
@@ -155,25 +241,41 @@
   <h2>Nothing here... yet</h2>
   <p>Tap <b>+</b> to catch your first thought.</p>
 </div>
+<div id="emptySearch" class="empty-state hidden">
+  <div class="empty-state-glyph">&#128269;</div>
+  <h3>No matching notes</h3>
+  <p>Try a different search or clear the filter.</p>
+</div>
+</div>
+
+<div id="bulkBar" class="bulk-bar hidden">
+  <span id="bulkCount" class="bulk-count">0 selected</span>
+  <div class="bulk-actions">
+    <button id="bulkTag" class="bulk-btn" aria-label="Tag selected" title="Tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></button>
+    <button id="bulkArchive" class="bulk-btn" aria-label="Archive selected" title="Archive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg></button>
+    <button id="bulkExport" class="bulk-btn" aria-label="Export selected" title="Export PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg></button>
+    <button id="bulkDelete" class="bulk-btn danger" aria-label="Delete selected" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13"/></svg></button>
+    <button id="bulkCancel" class="bulk-btn cancel" aria-label="Cancel selection" title="Cancel">&#10005;</button>
+  </div>
 </div>
 
 <button id="fab" class="fab" aria-label="New note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
 
 <section id="sheet" class="sheet hidden">
   <header class="ed-top">
-    <button id="btnDone" class="iconbtn" title="Save &amp; close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button>
+    <button id="btnDone" class="iconbtn" title="Save &amp; close" aria-label="Save and close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button>
     <span id="edMeta" class="ed-meta">0 words</span>
-    <button id="btnOptions" class="iconbtn" title="Options"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></svg></button>
+    <button id="btnOptions" class="iconbtn" title="Options" aria-label="Note options"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></svg></button>
   </header>
   <div id="edMenu" class="ed-menu hidden">
     <div class="color-row" id="colorRow"></div>
     <input id="edTags" class="ed-tags" type="text" placeholder="Tags (comma separated)" autocomplete="off">
     <div class="rows ed-menu-rows">
-      <button class="row" id="btnAttach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="m21 16-4.5-4.5L9 19"/></svg><span>Add photos</span></button>
-      <button class="row" id="btnShare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg><span>Share as image</span></button>
-      <button class="row" id="btnPinNote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 17v5M9 4h6l1 7 3 2H5l3-2 1-7z"/></svg><span>Pin note</span></button>
-      <button class="row" id="btnArchiveNote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg><span>Archive note</span></button>
-      <button class="row danger" id="btnDeleteNote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13"/></svg><span>Delete note</span></button>
+      <button class="row" id="btnAttach" data-search="photo image picture"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="m21 16-4.5-4.5L9 19"/></svg><span>Add photos</span></button>
+      <button class="row" id="btnShare" data-search="share image card export"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg><span>Share as image</span></button>
+      <button class="row" id="btnPinNote" data-search="pin important"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 17v5M9 4h6l1 7 3 2H5l3-2 1-7z"/></svg><span>Pin note</span></button>
+      <button class="row" id="btnArchiveNote" data-search="archive hide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg><span>Archive note</span></button>
+      <button class="row danger" id="btnDeleteNote" data-search="delete trash remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13"/></svg><span>Delete note</span></button>
     </div>
   </div>
   <div class="ed-page">
@@ -187,15 +289,15 @@
   <div class="lb-scrim" data-close-lb></div>
   <img id="lbImg" alt="">
   <div class="lb-bar">
-    <button id="lbDelete" class="chip danger">Delete</button>
-    <button id="lbClose" class="done-btn">Close</button>
+    <button id="lbDelete" class="chip danger" aria-label="Delete photo">Delete</button>
+    <button id="lbClose" class="done-btn" aria-label="Close lightbox">Close</button>
   </div>
 </div>
 
 <div id="xfer" class="panelview hidden">
   <div class="panel-scrim" data-close-xfer></div>
   <div class="panel-box xfer-box">
-    <header class="panel-head"><h2 id="xferTitle">Transfer</h2><button class="closex" data-close-xfer>&#10005;</button></header>
+    <header class="panel-head"><h2 id="xferTitle">Transfer</h2><button class="closex" data-close-xfer aria-label="Close">&#10005;</button></header>
     <div class="xfer-body">
 
       <section id="stageSend" class="xfer-stage hidden">
@@ -208,7 +310,7 @@
       <section id="stageRecv" class="xfer-stage hidden">
         <p class="xfer-hint">Enter the 5-digit code shown on the sending device:</p>
         <div class="code-inputs" id="codeInputs">
-          <input maxlength="1" inputmode="numeric" autocomplete="one-time-code"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
+          <input maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 1"><input maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 2"><input maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 3"><input maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 4"><input maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 5">
         </div>
         <button id="btnGoRecv" class="done-btn xfer-go">Connect &amp; receive</button>
         <div class="xfer-status"><span class="xdot"></span><span id="recvStatus">Enter a code to begin</span></div>
@@ -221,14 +323,151 @@
   </div>
 </div>
 
+<div id="tagModal" class="panelview hidden">
+  <div class="panel-scrim" data-close-tagmodal></div>
+  <div class="panel-box" style="max-width:380px">
+    <header class="panel-head"><h2>Add tags</h2><button class="closex" data-close-tagmodal aria-label="Close">&#10005;</button></header>
+    <div style="padding:16px 20px 24px">
+      <input id="bulkTagInput" type="text" class="settings-search" placeholder="Enter tags (comma separated)" autocomplete="off" style="width:100%">
+      <button id="bulkTagApply" class="done-btn" style="margin-top:14px;width:100%">Apply</button>
+    </div>
+  </div>
+</div>
+
+<div id="licenseView" class="panelview hidden">
+  <div class="panel-scrim" data-close-license></div>
+  <div class="panel-box lic-box">
+    <header class="panel-head lic-head"><h2>End User License Agreement</h2><button class="closex" data-close-license aria-label="Close">&#10005;</button></header>
+    <div class="lic-doc">
+      <div class="lic-paper">
+        <div class="lic-brand">
+          <div class="lic-logo">L</div>
+          <div>
+            <div class="lic-app">LostNote</div>
+            <div class="lic-edition">Proprietary Software License</div>
+          </div>
+        </div>
+        <div class="lic-rule"></div>
+        <div class="lic-date">Effective date: 2026 &middot; Version 1.4.0</div>
+
+        <p class="lic-p">
+          This End User License Agreement (the <b>&quot;Agreement&quot;</b>) is a legal agreement between
+          <b>Kizar (rkkizar777-design)</b> (the <b>&quot;Licensor&quot;</b>) and the person or entity that installs
+          or uses LostNote (the <b>&quot;Licensee&quot;</b>). By installing, copying, or using the Software,
+          the Licensee agrees to be bound by the terms of this Agreement. If the Licensee does not agree,
+          the Licensee must not install or use the Software.
+        </p>
+
+        <div class="lic-sec" data-sec="def">
+          <h3>1. Definitions</h3>
+          <p>&quot;Software&quot; means the LostNote application, including its source code, design, graphics, icons, and compiled distributions for any platform.</p>
+          <p>&quot;Use&quot; means installing, launching, or otherwise accessing the Software on a device the Licensee owns or controls.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="grant">
+          <h3>2. Grant of License</h3>
+          <p>The Licensor grants the Licensee a limited, non-exclusive, non-transferable, revocable, personal license to install and Use the Software free of charge on any number of devices the Licensee personally owns or controls, solely for personal, non-commercial purposes.</p>
+          <p>No right, title, or interest in or to the Software is transferred. All rights not expressly granted herein are reserved by the Licensor.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="restricts">
+          <h3>3. Restrictions</h3>
+          <p>The Licensee may NOT, and shall not permit any third party to:</p>
+          <ul>
+            <li>a) Sell, rent, lease, sublicense, distribute, or otherwise transfer the Software or any copy of it;</li>
+            <li>b) Modify, adapt, translate, or create derivative works of the Software or any part of it;</li>
+            <li>c) Republish the source code, in whole or in part, in any other project or product;</li>
+            <li>d) Reverse engineer, decompile, or disassemble the Software, except as expressly permitted by applicable law;</li>
+            <li>e) Remove, alter, or obscure any copyright or proprietary notice, logo, or license text in or on the Software;</li>
+            <li>f) Use the Software or its name to misrepresent a modified build as an official release.</li>
+          </ul>
+        </div>
+
+        <div class="lic-sec" data-sec="closed">
+          <h3>4. Closed Source</h3>
+          <p>LostNote is proprietary software and is <b>not open source</b>. Publication of source code for transparency and verification does not grant any right to reuse, copy, or redistribute it.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="data">
+          <h3>5. Licensee Data</h3>
+          <p>This Agreement covers the Software only. All content the Licensee creates with LostNote, including notes, photos, and backups, remains the exclusive property of the Licensee. LostNote stores such data locally on the Licensee&apos;s device and transmits it nowhere except during direct, user-initiated, device-to-device transfer sessions.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="updates">
+          <h3>6. Updates and Support</h3>
+          <p>The Licensor may, in its sole discretion, provide updates. An update is subject to this Agreement unless the Licensor states otherwise. The Licensor has no obligation to provide updates, maintenance, or support, and nothing in this Agreement guarantees future releases.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="terms">
+          <h3>7. Term and Termination</h3>
+          <p>This Agreement is effective until terminated. The Licensee may terminate it at any time by ceasing all Use of the Software and deleting all copies. The Licensor may terminate this Agreement immediately upon any breach. Upon termination, the license granted herein ends and the Licensee must uninstall and delete all copies of the Software.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="warranty">
+          <h3>8. Disclaimer of Warranty</h3>
+          <p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. THE LICENSEE USES THE SOFTWARE AT ITS OWN RISK. NO ORAL OR WRITTEN INFORMATION GIVEN BY THE LICENSOR SHALL CREATE A WARRANTY.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="liability">
+          <h3>9. Limitation of Liability</h3>
+          <p>IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES, OR FOR ANY LOSS OF NOTES, DATA, INCOME, OR PROFITS, ARISING OUT OF OR IN CONNECTION WITH THE SOFTWARE OR ITS USE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. THE ENTIRE LIABILITY OF THE LICENSOR SHALL NOT EXCEED THE AMOUNT PAID FOR THE SOFTWARE, WHICH IS ZERO.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="indemn">
+          <h3>10. Indemnification</h3>
+          <p>The Licensee agrees to indemnify and hold harmless the Licensor from and against any claims, damages, or liabilities arising out of the Licensee&apos;s Use of the Software in a manner that violates this Agreement or applicable law.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="trademark">
+          <h3>11. Trademark</h3>
+          <p>The name &quot;LostNote&quot;, its logo, and its branding are proprietary assets of the Licensor and may not be used to identify, promote, or endorse any modified or unofficial build, product, or service.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="law">
+          <h3>12. Governing Law</h3>
+          <p>This Agreement shall be governed by and construed in accordance with the laws of the Republic of Iraq, without regard to conflict-of-law principles. Any dispute shall be subject to the exclusive jurisdiction of the competent courts of the Republic of Iraq.</p>
+        </div>
+
+        <div class="lic-sec" data-sec="entire">
+          <h3>13. Entire Agreement</h3>
+          <p>This Agreement constitutes the entire agreement between the parties concerning the subject matter hereof and supersedes all prior agreements and understandings. If any provision is held unenforceable, the remaining provisions shall continue in full force and effect.</p>
+        </div>
+
+        <div class="lic-contact">
+          <div>Official source and contact:</div>
+          <div class="lic-url">github.com/rkkizar777-design/lostnote</div>
+          <div class="lic-copy">&#169; 2026 Kizar (rkkizar777-design). All Rights Reserved.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="aboutView" class="panelview hidden">
+  <div class="panel-scrim" data-close-about></div>
+  <div class="panel-box" style="max-width:460px">
+    <header class="panel-head"><h2>About LostNote</h2><button class="closex" data-close-about aria-label="Close">&#10005;</button></header>
+    <div style="padding:20px 24px 28px;text-align:center">
+      <div class="ab-logo">L</div>
+      <div class="ab-name">LostNote</div>
+      <div class="ab-ver" id="aboutVer">v1.4.0</div>
+      <p class="ab-tag">A private, offline notes app. Your data stays on your device.</p>
+      <div class="ab-row"><span>Developer</span><b>Kizar (rkkizar777-design)</b></div>
+      <div class="ab-row"><span>License</span><button class="linkbtn" id="abLicense">View license</button></div>
+      <div class="ab-row"><span>Repository</span><span>github.com/rkkizar777-design/lostnote</span></div>
+      <div class="ab-copy">&#169; 2026 Kizar &middot; LostNote is proprietary software &middot; not open source</div>
+    </div>
+  </div>
+</div>
+
 <div id="toast" class="toast hidden"></div>
 
 <input type="file" id="filePhotos" accept="image/*" multiple hidden>
 <input type="file" id="fileRestore" accept=".json" hidden>
 
-<script src="db.js?v=27"></script>
-<script src="export.js?v=27"></script>
-<script src="peerjs.min.js?v=27"></script>
-<script src="app.js?v=27"></script>
+<script src="db.js?v=29"></script>
+<script src="export.js?v=29"></script>
+<script src="peerjs.min.js?v=29"></script>
+<script src="app.js?v=29"></script>
 </body>
 </html>

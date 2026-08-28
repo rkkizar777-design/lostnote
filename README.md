@@ -1,91 +1,47 @@
 # LostNote
 
-> *"Write it before you lose it."*
+A private, offline notes app for PC (desktop) and Android. All your data stays on **your device** — stored locally, never uploaded to any server.
 
-[![Platform](https://img.shields.io/badge/Android%20%2B%20Windows-native-6D28D9?style=for-the-badge&logo=android&logoColor=white)](https://github.com/rkkizar777-design/lostnote/releases/latest)
-[![Offline](https://img.shields.io/badge/Works-100%25%20offline-10B981?style=for-the-badge&logo=wifi&logoColor=white)](#)
-[![Servers](https://img.shields.io/badge/Servers-zero-black?style=for-the-badge)](#)
-[![Tracking](https://img.shields.io/badge/Tracking-zero-black?style=for-the-badge)](#)
-[![Follow](https://img.shields.io/badge/Follow-%40rkkizar777--design-white?style=for-the-badge&logo=github&logoColor=black)](https://github.com/rkkizar777-design)
+## Features
 
-A notes app that lives **entirely on your device** — photos, colors, PDF export, a locked archive, and direct phone ↔ PC sync with no server in between.
+- **100% offline** — no account, no cloud, no tracking
+- Rich text notes with **photos** (camera / gallery / drag & drop)
+- Organize with **tags** and archived storage
+- **Bulk actions** — select many notes, tag/archive/delete at once
+- **Swipe actions** on Android for quick archive / delete
+- Search notes as you type
+- Full **local backup/restore** to a JSON file
+- Device-to-device transfer sessions (peer-to-peer)
+- Export notes to a **PDF**
+- Dark & light themes, adjustable accent colors, accessibility options
+- Filter, sort, color-code, and pin your notes
 
----
+## Download
 
-## 📥 Download
+| Platform | Artifact | File |
+|----------|----------|------|
+| Windows (portable, x64) | `LostNote.exe` | [Releases](https://github.com/rkkizar777-design/lostnote/releases/latest) |
+| Android (APK) | `LostNote.apk` | [Releases](https://github.com/rkkizar777-design/lostnote/releases/latest) |
 
-| Platform | Link | Size |
-|---|---|---|
-| 📱 **Android** (APK) | [LostNote.apk](https://github.com/rkkizar777-design/lostnote/releases/latest/download/LostNote.apk) | ~3 MB |
-| 💻 **Windows** (portable, no install) | [LostNote.exe](https://github.com/rkkizar777-design/lostnote/releases/latest/download/LostNote.exe) | ~89 MB |
+> Windows: run the portable `.exe` — no installation required.
+> Android: allow "install from unknown sources", then open the `.apk`.
 
-Install → open → write. That's the whole onboarding.
+## Getting Started
 
----
+1. Download the build for your platform (see **Download**).
+2. Launch LostNote. Onboarding walks you through creating your first note.
+3. Your notes are stored locally on your device.
 
-## ✨ What it does
+## Privacy
 
-- 🎨 **8 glass-tint colors** — whole-card tinting, not just a dot
-- 🖼️ **Photos** — camera or gallery, tap to fullscreen
-- 🔒 **PIN lock** — optional 4-digit lock, plus a *second* PIN for the archive
-- 🗄️ **Archive** — hide notes without deleting them
-- 🗑️ **Trash with undo** — nothing vanishes by accident
-- 🏷️ **Tags + tag filter chips**
-- 📤 **Share as image** — any note becomes a beautiful card
-- 📄 **PDF export** — all notes to one printable file
-- 💾 **Backup / restore** — one JSON file, everything included
-- 🌗 **Dark · Light · Auto theme** — OLED black by default
-- 🔄 **P2P transfer** — send your entire library to another device with a 5-digit code. Direct when possible, relayed through an encrypted tunnel when networks are hostile. Archive and trash arrive exactly as they left.
-- 👆 **Built for thumbs** — long-press to delete, one-thumb editor, desktop layout for big screens
-- 🚀 **In-app updates** — check and download new versions from inside the app, no browser needed
-- ⚡ **Optimized PC build** — GPU disabled, startup flags tuned, dead weight stripped, window appears instantly when ready
+LostNote is fully **local-first**. Your data never leaves your device except during a direct, user-initiated, device-to-device transfer session that you start. There are no analytics, no ads, and no cloud accounts.
 
-## ⚙️ How it works
+## License
 
-- 🧠 **Zero backend** — IndexedDB is the database, the device is the server
-- 📡 **PeerJS + WebRTC** — encrypted data channels; TURN fallback punches through firewalls and carrier NATs automatically
-- 🪞 **Mirror merge** — newest `updatedAt` wins, deletions propagate, no duplicates ever
-- 📦 **One codebase, two shells** — plain web app wrapped natively: Capacitor for Android, Electron portable for Windows (`lostnote://` secure origin)
-- 🚀 **Single-file EXE** — self-contained, runs from a USB stick if you want
-- ⚙️ **Lightweight startup** — `--no-sandbox`, GPU disabled, renderer capped, Chromium services stripped; fastest possible launch for a notes app
-- 🎬 **Splash intro** — guaranteed 2.4s brand moment, skippable, theme-aware
+**LostNote is proprietary software and is NOT open source.** See the in-app **Settings → Legal & License** section or the [`LICENSE`](LICENSE) file for the full End User License Agreement. Publication of this source is for transparency and verification only; it does not grant any right to reuse, copy, or redistribute the code.
 
-**Notes stored** · **on your device**
-**Accounts needed** · **none**
-**Data collected** · **nothing**
+## Contact
 
----
+Report issues and feature requests under the [Issues](https://github.com/rkkizar777-design/lostnote/issues) tab.
 
-## 🛠️ Tech Stack
-
-`JavaScript` `HTML5` `CSS3` `IndexedDB` `WebRTC` `PeerJS` `Canvas` `Capacitor 6` `Electron` `Gradle` `electron-builder`
-
----
-
-## 🧑‍💻 Run from source
-
-```bash
-# any static server works
-npx serve .        # or: node serve.mjs
-```
-
-Open the printed URL — full app, no build step, no dependencies to install.
-
-Rebuild the Android APK / Windows EXE from `source/` with Capacitor 6 + electron-builder.
-
----
-
-## 📜 Privacy
-
-No servers. No accounts. No analytics. No tracking pixels. No permissions beyond what you grant.
-Your notes leave your device only when *you* push Transfer — straight to the other device, peer to peer.
-
----
-
-### 🌍 Find Me
-
-**Portfolio** · [kizar.dev](https://portfolio-7v27jfiiq-razikmakmak-1648s-projects.vercel.app) **GitSearch** · [gitsearch-website.vercel.app](https://gitsearch-website.vercel.app) **KIZ Player** · [kiz-player.vercel.app](https://kiz-player.vercel.app) **Email** · [razikmakmak@gmail.com](mailto:razikmakmak@gmail.com)
-
-*Building things that work. From Algiers.*
-
-**No servers · No tracking · No BS**
+(c) 2026 Kizar (rkkizar777-design). All Rights Reserved.

@@ -1,68 +1,126 @@
-LostNote — Proprietary Software License
-=======================================
+                        LOSTNOTE
+              PROPRIETARY SOFTWARE LICENSE
+                   END USER LICENSE AGREEMENT
 
 Copyright (c) 2026 Kizar (rkkizar777-design). All Rights Reserved.
 
-This software, including its source code, design, assets, and compiled
-distributions ("LostNote" or the "Software"), is the exclusive property
-of the author named above.
+This End User License Agreement (the "Agreement") is a legal agreement
+between Kizar (rkkizar777-design) (the "Licensor") and the person or
+entity that installs or uses LostNote (the "Licensee"). By installing,
+copying, or using the Software, the Licensee agrees to be bound by the
+terms of this Agreement. If the Licensee does not agree, the Licensee
+must not install or use the Software.
 
-1. GRANT OF LICENSE
-   You may install and use LostNote, free of charge, on any number of
-   devices that you personally own or control, for personal,
-   non-commercial purposes.
+1. DEFINITIONS
 
-2. CLOSED SOURCE
-   LostNote is NOT open-source software. The source code is published
-   publicly for transparency and verification ONLY. Publication does
-   NOT grant any right to reuse it.
+   "Software" means the LostNote application, including its source
+   code, design, graphics, icons, and compiled distributions for any
+   platform. "Use" means installing, launching, or otherwise accessing
+   the Software on a device the Licensee owns or controls.
 
-3. RESTRICTIONS — YOU MAY NOT:
-   a) Modify, adapt, translate, or create derivative works of the
+2. GRANT OF LICENSE
+
+   The Licensor grants the Licensee a limited, non-exclusive,
+   non-transferable, revocable, personal license to install and Use
+   the Software free of charge on any number of devices the Licensee
+   personally owns or controls, solely for personal, non-commercial
+   purposes. No right, title, or interest in or to the Software is
+   transferred. All rights not expressly granted herein are reserved
+   by the Licensor.
+
+3. RESTRICTIONS
+
+   The Licensee may NOT, and shall not permit any third party to:
+   a) Sell, rent, lease, sublicense, distribute, or otherwise transfer
+      the Software or any copy of it;
+   b) Modify, adapt, translate, or create derivative works of the
       Software or any part of it;
-   b) Redistribute, sublicense, sell, rent, lease, or bundle the
-      Software or modified versions of it;
    c) Republish the source code, in whole or in part, in any other
-      project, repository, or product;
-   d) Reverse engineer, decompile, or disassemble the compiled
-      distributions, except to the extent expressly permitted by
-      applicable mandatory law;
-   e) Remove or alter this license, copyright notices, credits, or
-      version identifiers inside the Software;
-   f) Use the Software or its name to mislead anyone into believing
-      a modified build is an official release of LostNote.
+      project or product;
+   d) Reverse engineer, decompile, or disassemble the Software, except
+      as expressly permitted by applicable law;
+   e) Remove, alter, or obscure any copyright or proprietary notice,
+      logo, or license text in or on the Software;
+   f) Use the Software or its name to misrepresent a modified build as
+      an official release.
 
-4. YOUR DATA IS YOURS
-   This license covers the Software only. Notes, photos, backups, and
-   other content you create with LostNote remain your exclusive
-   property. LostNote stores them locally on your device and transmits
-   them nowhere except direct device-to-device sync sessions that you
-   personally start.
+4. CLOSED SOURCE
 
-5. UPDATES
-   Updates are supplied at the author's discretion and are covered by
-   this same license. Nothing guarantees future updates.
+   LostNote is proprietary software and is NOT open source. Publication
+   of source code for transparency and verification does not grant any
+   right to reuse, copy, or redistribute it.
 
-6. TERMINATION
-   This license is effective until breached. Upon breach, all rights
-   granted here end immediately and you must uninstall and delete all
-   copies of the Software.
+5. LICENSEE DATA
 
-7. NO WARRANTY
-   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
-   NON-INFRINGEMENT. YOU USE IT AT YOUR OWN RISK.
+   This Agreement covers the Software only. All content the Licensee
+   creates with LostNote, including notes, photos, and backups, remains
+   the exclusive property of the Licensee. LostNote stores such data
+   locally on the Licensee's device and transmits it nowhere except
+   during direct, user-initiated, device-to-device transfer sessions.
 
-8. LIMITATION OF LIABILITY
-   IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR
-   OTHER LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
-   SOFTWARE OR ITS USE — INCLUDING LOST NOTES, LOST DATA, OR LOST
-   PROFITS.
+6. UPDATES AND SUPPORT
 
-9. TRADEMARK
-   The name "LostNote", its logo, and branding may not be used to
-   identify or promote any non-official build.
+   The Licensor may, in its sole discretion, provide updates. An update
+   is subject to this Agreement unless the Licensor states otherwise.
+   The Licensor has no obligation to provide updates, maintenance, or
+   support, and nothing in this Agreement guarantees future releases.
 
-Contact / official sources:
-  https://github.com/rkkizar777-design/lostnote
+7. TERM AND TERMINATION
+
+   This Agreement is effective until terminated. The Licensee may
+   terminate it at any time by ceasing all Use of the Software and
+   deleting all copies. The Licensor may terminate this Agreement
+   immediately upon any breach. Upon termination, the license granted
+   herein ends and the Licensee must uninstall and delete all copies
+   of the Software.
+
+8. DISCLAIMER OF WARRANTY
+
+   THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT
+   WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+   TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+   PURPOSE, AND NON-INFRINGEMENT. THE LICENSEE USES THE SOFTWARE AT ITS
+   OWN RISK. NO ORAL OR WRITTEN INFORMATION GIVEN BY THE LICENSOR SHALL
+   CREATE A WARRANTY.
+
+9. LIMITATION OF LIABILITY
+
+   IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+   INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES, OR FOR ANY LOSS OF
+   NOTES, DATA, INCOME, OR PROFITS, ARISING OUT OF OR IN CONNECTION
+   WITH THE SOFTWARE OR ITS USE, EVEN IF ADVISED OF THE POSSIBILITY OF
+   SUCH DAMAGES. THE ENTIRE LIABILITY OF THE LICENSOR SHALL NOT EXCEED
+   THE AMOUNT PAID FOR THE SOFTWARE, WHICH IS ZERO.
+
+10. INDEMNIFICATION
+
+   The Licensee agrees to indemnify and hold harmless the Licensor from
+   and against any claims, damages, or liabilities arising out of the
+   Licensee's Use of the Software in a manner that violates this
+   Agreement or applicable law.
+
+11. TRADEMARK
+
+   The name "LostNote", its logo, and its branding are proprietary
+   assets of the Licensor and may not be used to identify, promote, or
+   endorse any modified or unofficial build, product, or service.
+
+12. GOVERNING LAW
+
+   This Agreement shall be governed by and construed in accordance with
+   the laws of the Republic of Iraq, without regard to conflict-of-law
+   principles. Any dispute shall be subject to the exclusive
+   jurisdiction of the competent courts of the Republic of Iraq.
+
+13. ENTIRE AGREEMENT
+
+   This Agreement constitutes the entire agreement between the parties
+   concerning the subject matter hereof and supersedes all prior
+   agreements and understandings. If any provision is held
+   unenforceable, the remaining provisions shall continue in full force
+   and effect.
+
+Official source and contact:
+   https://github.com/rkkizar777-design/lostnote
+
+(c) 2026 Kizar (rkkizar777-design). All Rights Reserved.
